@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Live Clock</title>
+<title>Fixed Clock</title>
 <style>
   html, body {
     margin: 0;
@@ -10,7 +10,6 @@
     width: 100%;
     height: 100%;
     background: #000;
-    overflow: hidden;
   }
 
   body {
@@ -20,22 +19,34 @@
     font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   }
 
-  #clock {
-    color: #00ffcc;
+  .clock {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 12vw;
     font-weight: 600;
-    font-variant-numeric: tabular-nums;
-    font-feature-settings: "tnum";
-    font-family: monospace;
+    color: #00ffcc;
     letter-spacing: 0.05em;
-    user-select: none;
     text-shadow:
       0 0 10px rgba(0,255,204,0.4),
       0 0 30px rgba(0,255,204,0.2);
   }
 
+  .unit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.4em;     /* ← 固定幅 */
+    text-align: center;
+  }
+
+  .colon {
+    width: 0.6em;     /* : も固定 */
+    text-align: center;
+  }
+
   @media (max-width: 600px) {
-    #clock {
+    .clock {
       font-size: 18vw;
     }
   }
@@ -43,7 +54,13 @@
 </head>
 <body>
 
-<div id="clock">--:--:--</div>
+<div class="clock">
+  <div class="unit" id="h">--</div>
+  <div class="colon">:</div>
+  <div class="unit" id="m">--</div>
+  <div class="colon">:</div>
+  <div class="unit" id="s">--</div>
+</div>
 
 <script>
   function pad(n) {
@@ -52,10 +69,13 @@
 
   function updateClock() {
     const now = new Date();
-    const h = now.getHours();          // h (0-23)
-    const m = pad(now.getMinutes());   // mm
-    const s = pad(now.getSeconds());   // ss
-    document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+    const h = now.getHours();          // 0-23
+    const m = pad(now.getMinutes());   // 00-59
+    const s = pad(now.getSeconds());   // 00-59
+
+    document.getElementById('h').textContent = h;
+    document.getElementById('m').textContent = m;
+    document.getElementById('s').textContent = s;
   }
 
   updateClock();
