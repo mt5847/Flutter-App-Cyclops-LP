@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>Live Clock</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    overflow: hidden;
+  }
+
+  body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  #clock {
+    color: #00ffcc;
+    font-size: 12vw;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    user-select: none;
+    text-shadow:
+      0 0 10px rgba(0,255,204,0.4),
+      0 0 30px rgba(0,255,204,0.2);
+  }
+
+  @media (max-width: 600px) {
+    #clock {
+      font-size: 18vw;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="clock">--:--:--</div>
+
+<script>
+  function pad(n) {
+    return n.toString().padStart(2, '0');
+  }
+
+  function updateClock() {
+    const now = new Date();
+    const h = now.getHours();          // h (0-23)
+    const m = pad(now.getMinutes());   // mm
+    const s = pad(now.getSeconds());   // ss
+    document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+  }
+
+  updateClock();
+  setInterval(updateClock, 1000);
+</script>
+
+</body>
+</html>
